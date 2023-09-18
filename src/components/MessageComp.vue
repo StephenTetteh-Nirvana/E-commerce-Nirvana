@@ -34,6 +34,7 @@
                     <span>East Legon,Opposite American House</span>
                 </div>
             </div>
+            <div class="hidden">Hidden</div>
         </div>
 </template>
 
@@ -76,7 +77,10 @@ export default {
 .comment-section{
     display:grid;
     grid-template-columns:1fr 1fr;
-    height:60vh;
+}
+.hidden{
+    opacity:0;
+    height:50px;
 }
 .text-field{
     margin-top:30px;

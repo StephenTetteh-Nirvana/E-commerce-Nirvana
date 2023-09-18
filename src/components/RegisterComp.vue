@@ -2,11 +2,7 @@
 <template>
 <div class="login-container">
                     <div class="background">
-                        <div v-if="errorBox" class="error">
-                            <div v-if="errMsg" class="message-box">
-                             <h1>{{ errMsg }}</h1>
-                            </div>
-                        </div>
+                      
                         <div class="image-container">
                                 <router-link to="/"><img src="../images/icons8-worldwide-delivery-50.png"/></router-link> 
                                 <span class="tooltip">Back To Home</span>
@@ -35,6 +31,11 @@
                                         </div>
                                         <div class="bottom-box">
                                             <button @click="Register" class="login">Sign Up</button>
+                                            <div v-if="errorBox" class="error">
+                                                <div v-if="errMsg" class="message-box">
+                                                <h1>{{ errMsg }}</h1>
+                                                </div>
+                                            </div>
                                         </div>
                             </form> 
                    </div>
@@ -62,7 +63,7 @@ export default {
         const name = ref('')
         const email = ref('')
         const password = ref('')
-        const errorBox = ref(false)
+        const errorBox = ref(true)
         const auth=getAuth()
           const errMsg=ref("")
           const loader = ref(false)
@@ -266,9 +267,7 @@ position:absolute;
     cursor:pointer;
 }
 .error{
-    position:absolute;
-    top:68%;
-    left:40%;
+   margin-top:30px;
 }
 .message-box{
     /* border:1px solid black; */
@@ -425,6 +424,7 @@ input[type="password"]{
     font-weight:bolder;
     overflow: hidden;
     border-radius: 8px;
+    margin-top:50px;
 }
 
 @media screen and (max-width:767px){

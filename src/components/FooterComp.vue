@@ -3,7 +3,8 @@
            <div v-if="noSubscribe" class="button-content">
             <h1>Subscribe</h1>
             <p>Get The Latest News On Product Releases, Availabilty, And Events</p>
-            <input type="text" placeholder="Please enter your email here" v-model="email"/><button @click="subscribe">Subscribe</button>
+            <input type="text" placeholder="Please enter your email here" v-model="email"/>
+            <button @click="subscribe">Subscribe</button>
            </div>
            <div v-if="noUser" class="noUser">
             <router-link class="router" to="/register"><h3>Create One</h3></router-link>
@@ -188,7 +189,7 @@ button{
     }
     input[type="text"]{
         padding-left:5px;
-        width:65%;
+        width:40%;
         padding:10px;
         border-radius:7px;
         border:none;

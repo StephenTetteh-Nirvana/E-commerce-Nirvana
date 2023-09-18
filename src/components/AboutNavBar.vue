@@ -86,27 +86,35 @@
  
                  <div v-if="logIn" class="search-section-2">
                      <div class="links">
-                         <img class="cart" src="../images/icons8-about-50.png"/><span class="user-home-text">About</span>
-                         
+
+                        <div class="home-hover">
+                            <img class="user-home-icon" src="../images/icons8-sort-down-50.png"/>
+                            <span class="user-home-text">About</span>
+                        </div>
+                        
                              <ul class="navs">
                                  <router-link class="routes" to="/">
                                      <li>
-                                         <img class="user-home-icon" src="../images/icons8-home-32.png"><span>Home</span>
+                                         <!-- <img class="user-home-icon" src="../images/icons8-home-32.png"> -->
+                                         <span>Home</span>
                                      </li>
                                  </router-link>
                                  <router-link class="routes" to="/products">
                                      <li>
-                                         <img class="cart" src="../images/icons8-categories-64.png"/><span>Products</span>
+                                         <!-- <img class="cart" src="../images/icons8-categories-64.png"/> -->
+                                         <span>Products</span>
                                      </li>
                                  </router-link>
                                  <router-link class="routes" to="/contact">
                                      <li>
-                                         <img class="cart" src="../images/icons8-online-support-50.png"/><span>Help Center</span>
+                                         <!-- <img class="cart" src="../images/icons8-online-support-50.png"/> -->
+                                         <span>Help Center</span>
                                      </li>
                                  </router-link>
                                  <router-link class="routes" to="/orders">
                                      <li>
-                                         <img class="cart" src="../images/icons8-order-64.png"/><span>Orders</span>
+                                         <!-- <img class="cart" src="../images/icons8-order-64.png"/> -->
+                                         <span>Orders</span>
                                      </li>
                                  </router-link>
                              </ul>
@@ -375,52 +383,62 @@
      font-weight:bold;
      font-size:15px;
      letter-spacing:2px;
- 
  }
  .user-home-icon{
-      transform:translateY(5px);
- }
- .user-home-text{
+    width:20px;
+     transform:translateY(5px);
+}
+
+.user-home-text{
     margin-left:5px;
-     font-weight:bold;
-     font-size:20px;
-     /* border:1px solid black; */
-     cursor:pointer;
-   
- }
+    font-weight:bold;
+    font-size:20px;
+    /* border:1px solid black; */
+    cursor:pointer;
+  
+}
  .links{
-     border-right:1px solid grey;
-     width:130px;
-     transition:all 0.5s ease-in-out;
- }
- .links:hover .navs{
-     visibility:visible;
-     opacity:1;
- }
- .navs{
-     visibility:hidden;
-     opacity:0;
-     background-color:#ffffff;
-    padding:10px;
-    transform:translate(-60px,3px);
-     border-radius:8px;
-     border:1px solid grey;
-     width:150px;
- }
- .navs li{
-     text-decoration:none;
-     border-bottom:1px solid grey;
-     margin-top:10px;
-     color:black;
-     list-style:none;
-     width:100%;
- }
- .navs li:hover{
-      opacity:0.5;
- }
- .navs span{
-     margin-left:10px;
- }
+    border-right:1px solid grey;
+    width:110px;
+    transition:all 0.5s ease-in-out;
+    position:relative;
+}
+.links:hover .navs{
+    visibility:visible;
+    opacity:1;
+    top:40px;
+}
+.links:hover .user-home-icon{
+    transform:rotate(180deg);
+    transition:transform 300ms ease-in-out;
+}
+.turn-leave-to{
+    transform:rotate(0deg);
+}
+.navs{
+    visibility:hidden;
+    opacity:0;
+    background-color:#ffffff;
+   padding:10px;
+   position:absolute;
+   top:-80px;
+    width:120px;
+    transition: top 500ms,opacity 500ms;
+}
+.navs li{
+    text-decoration:none;
+    /* border-bottom:1px solid grey; */
+    margin-top:10px;
+    color:black;
+    list-style:none;
+    width:100%;
+}
+.navs li:hover{
+     color:red;
+}
+.navs span{
+    margin-left:10px;
+}
  .routes{
      text-decoration:none;
  }

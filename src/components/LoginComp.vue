@@ -2,11 +2,6 @@
 <template>
         <div class="login-container">
                     <div class="background">
-                        <div v-if="errorBox" class="error">
-                            <div v-if="errMsg" class="message-box">
-                             <h1>{{ errMsg }}</h1>
-                            </div>
-                        </div>
                         <div class="image-container">
                                 <router-link to="/"><img src="../images/icons8-worldwide-delivery-50.png"/></router-link> 
                                 <span class="tooltip">Back To Home</span>
@@ -32,6 +27,11 @@
                                         </div>
                                         <div class="bottom-box">
                                             <button @click="LogIn" class="login">Sign In</button>
+                                            <div v-if="errorBox" class="error">
+                                                <div v-if="errMsg" class="message-box">
+                                                <h1>{{ errMsg }}</h1>
+                                                </div>
+                                            </div>
                                         </div>
                             </form> 
                    </div>
@@ -119,7 +119,7 @@ export default {
 .preloader {
   /* Add styles to center the preloader on the page */
  position:absolute;
- top:45%;
+ top:55%;
  left:50%;
  transform:translate(-50%,-50%);
  border-radius:10px;
@@ -234,9 +234,7 @@ export default {
     cursor:pointer;
 }
 .error{
-    position:absolute;
-    top:60%;
-    left:40%;
+   margin-top:20px;
 }
 .message-box{
     width:100%;
@@ -359,6 +357,8 @@ input[type="password"]{
     font-weight:bolder;
     overflow: hidden;
     border-radius: 8px;
+    margin-top:50px;
+    /* margin-top:30px; */
 }
 
 

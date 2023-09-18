@@ -109,7 +109,7 @@ export default {
     cursor:pointer;
 }
 img{
-    width:60%;
+    width:30%;
     height:100%;
 }
 @media screen and (max-width:767px){
@@ -119,6 +119,9 @@ img{
     .image-container h1{
         font-size:20px;
     font-weight:bolder;
+}
+img{
+    width:60%;
 }
 }
 </style>
