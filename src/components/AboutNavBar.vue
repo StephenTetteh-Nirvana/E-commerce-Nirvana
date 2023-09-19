@@ -121,9 +121,9 @@
                      </div>
  
                     
-                     <div v-if="check" class="loding-to-check">
+                     <!-- <div v-if="check" class="loding-to-check">
                          <h3>Checking</h3>
-                         </div>
+                         </div> -->
                      <div class="user-account">
                          <router-link to="/checkout">
                              <button class="cart-button">
@@ -131,12 +131,12 @@
                             <span class="cart-count">{{ cartCount }}</span> 
                              </button>
                          </router-link>
-                         <router-link to="/cart">
+                     
                              <button class="user-button">
                              <img class="user" src="../images/icons8-user-32.png"/>
                              <span class="userName">Hi,{{ userName}}</span>
                              </button>
-                         </router-link>
+                  
                          <button @click="logout" class="logout">Sign Out</button>
                      </div>
  
@@ -299,6 +299,7 @@
                              userName,
                              showSidebar,
                              close,
+                             checking,
                              onClick
                             
                              

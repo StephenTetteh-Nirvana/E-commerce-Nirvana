@@ -4,6 +4,8 @@
     </div>
       <h1 class="head">Billing Info</h1>
       <p class="head-p">Please choose a payment method <br/>and fill out the empty fields</p>
+
+
       <div class="header">
                 <div class="payments">
                     <div class="box-one">
@@ -18,26 +20,26 @@
                 </div>
 
                      
-                    <form class="grid-box-2">
+                    <form class="grid-box-2" @submit.prevent>
                         <h1>Payment Info</h1>
                           <div class="main-box-1">
                           <label class="label-one">Name on Card</label>
                           <br/>
-                          <input class="main-input-1" type="text"  v-model="name" required/>
+                          <input class="main-input-1" type="text"  v-model="name"/>
                           </div>
                             <br/>
 
                           <div class="main-box-2">
                             <label class="label-two">Card Number</label>
                             <br/>
-                            <input class="main-input-2"  type="number" placeholder="0000-0000-0000-0000" v-model="card" required/>
+                            <input class="main-input-2"  type="number" placeholder="0000-0000-0000-0000" v-model="card" />
                           </div>
                             <br/>
 
                             <div class="details-box">
                                 <div class="info-1">
                                     <label for="numberInput">CVV NUMBER</label><br/>
-                                    <input class="info-input-1" type="number" id="numberInput" placeholder="0-0-0-0" v-model="cvv" required/>
+                                    <input class="info-input-1" type="number" id="numberInput" placeholder="0-0-0-0" v-model="cvv"/>
                                 </div>
 
                                 <div class="info-2">
@@ -52,22 +54,23 @@
                             </div>
 
                            <div class="bottom-box">
-                                <div class="return-box">
-                                    <router-link class="route-1" to="/checkout"><button class="return">Shopping Cart</button></router-link>
-                                </div>
                                 <div class="payment">
                                     <h3>Total Fee: ${{total}}.00</h3>
                                     <button @click="pay" class="order-button">Pay</button>
                                 </div>
-                            </div>
 
-                        
+                            
+
+                            </div>
                         </form>
+
+                        <div class="hidden">Jfjd</div>
                     </div>
 
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import{ref,computed} from 'vue'
 import store from '../store.js'
 import{getDoc,doc,updateDoc} from 'firebase/firestore'
@@ -98,62 +101,54 @@ import {useRouter} from 'vue-router'
         
 
         const pay = async () => {
-            
-        //    if(name.value === "" || email.value === "" || card.value === "" || cvv.value === "" || date.value === ""){
-        //     Swal.fire(
-        //         'Couldnt Proceed?',
-        //         'Please provide all your details',
-        //         'question'
-        //         )
-        // }
+    if (name.value === "" && email.value === "" && card.value === "" && cvv.value === "" && date.value === "") {
+        Swal.fire(
+            'Couldn\'t Proceed?',
+            'Please provide all your details',
+            'question'
+        );
+    } else{
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Payment Successful',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        router.replace('/orders');
         
-        // else if(name.value != "" || email.value != "" || 
-        // card.value != "" || cvv.value != "" || 
-        // date.value != "")
-        // {
-        //     Swal.fire({
-        //     position: 'top-end',
-        //     icon: 'success',
-        //     title: 'Payment Successful',
-        //     showConfirmButton: false,
-        //     timer: 1500
-        //     })
-        //     router.replace('/orders')
-        // }
+        try {
+            // Get the user's document based on the UID
+            const user = auth.currentUser
+            const userId = user.uid
+            const userRef = doc(db, 'authenticated', userId);
 
-   try {
-    // Get the user's document based on the UID
-    const user = auth.currentUser
-    const userId = user.uid
-    const userRef = doc(db, 'authenticated', userId);
+            // Fetch the current cart and order arrays
+            const userSnapshot = await getDoc(userRef);
+            if (userSnapshot.exists()) {
+                const userData = userSnapshot.data();
+                const cartData = userData.cart || [];
+                const orderData = userData.order || [];
+                orderData.push(...cartData);
 
-    // Fetch the current cart and order arrays
-    const userSnapshot = await getDoc(userRef);
-if (userSnapshot.exists()) {
-      const userData = userSnapshot.data();
-      const cartData = userData.cart || [];
-      const orderData = userData.order || [];
-      orderData.push(...cartData);
+                orders.value = orderData;
 
-     orders.value = orderData 
+                // Clear the cart array
+                await updateDoc(userRef, {
+                    cart: [],
+                    order: orders.value
+                });
 
-// Clear the cart array
-await updateDoc(userRef, {
-  cart: [],
-  order: orders.value
-});
-console.log('Data transferred successfully');
-store.commit('setCart',[])
-router.push('/orders')
-
-} else {
-  console.error('User document does not exist');
-}
-  } catch (error) {
-    console.error('Error transferring data:', error);
-  }
-
-       
+                console.log('Data transferred successfully');
+                store.commit('setCart', []);
+                router.push('/orders');
+            } else {
+                console.error('User document does not exist');
+            }
+        } catch (error) {
+            console.error('Error transferring data:', error);
+        }
+    }
 }
     
             return{
@@ -175,6 +170,10 @@ router.push('/orders')
 <style scoped>
 .box-one img{
      width:40px;
+}
+.hidden{
+    opacity:0;
+    height:50px;
 }
 .box-one button{
     background:transparent;
@@ -211,14 +210,11 @@ em{
     margin-top:20px;
     text-align:center;
 }
-.header{
-    height:100vh;
-}
 .payments{
     width:20%;
     text-align:center;
-    margin-left:40%;
-    margin-top:50px;
+    /* margin-left:40%; */
+    margin-top:30px;
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
 }
@@ -230,13 +226,17 @@ em{
 .head-p{
     text-align:center;
 }
+.header{
+    display:grid;
+    place-items:center;
+}
 /* Grid-Box 2 Properties */
 .grid-box-2{
-    position:absolute;
+    /* position:absolute;
     top:55%;
     left:50%;
     border:1px solid grey;
-    transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%); */
     width:25%;
     height:440px;
     font-weight:bolder;
@@ -284,32 +284,6 @@ em{
     font-size:20px;
     border-bottom:2px dotted black;
 }
-.bottom-box{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-}
-.return{
-    display:block;
-    margin-left:10px;
-    background:transparent;
-    margin-top:20px;
-    border:1px solid black;
-    padding:10px;
-    opacity:0.5;
-    border-radius:18px;
-    color:black;
-    font-size:18px;
-    font-weight:bold;
-    letter-spacing:1px;
-    cursor:pointer;
-}
-.return:hover{
-    opacity:1;
-}
-.route-1{
-    color:orangered;
-    text-decoration:underline;
-}
 .order-button{
     padding:10px;
     width:80%;
@@ -322,22 +296,44 @@ em{
     cursor:pointer;
     margin-right:10px;
 }
+.cart{
+    position:absolute;
+    top:100px;
+    left:50px;
+}
+
+.shopping-cart{
+    padding:10px 20px;
+    outline:none;
+    appearance:none;
+    font-size:18px;
+    font-weight:bold;
+    /* background-color:red; */
+    color:black;
+    border:none;
+    transition:background 300ms;
+    border-radius:20px;
+    cursor:pointer;
+}
 
 @media screen and (max-width:767px){
     .grid-box-2{
-    position:absolute;
-    top:80%;
-    left:50%;
-    border:1px solid grey;
-    transform:translate(-50%,-50%);
     width:80%;
     height:470px;
     font-weight:bolder;
 }
+.cart{
+   position:absolute;
+   top:20px;
+   left:10px;
+}
+.shopping-cart{
+    font-size:15px;
+    padding:10px 10px;
+}
 .payments{
     width:80%;
     text-align:center;
-    margin-left:10%;
     margin-top:20px;
     display:grid;
     grid-template-columns:1fr 1fr 1fr;

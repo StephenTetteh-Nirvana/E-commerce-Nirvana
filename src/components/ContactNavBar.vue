@@ -132,12 +132,12 @@
                             <span class="cart-count">{{ cartCount }}</span> 
                              </button>
                          </router-link>
-                         <router-link to="/cart">
+                     
                              <button class="user-button">
                              <img class="user" src="../images/icons8-user-32.png"/>
                              <span class="userName">Hi,{{ userName}}</span>
                              </button>
-                         </router-link>
+                
                          <button @click="logout" class="logout">Sign Out</button>
                      </div>
  

@@ -52,7 +52,7 @@ export default {
       const auth = getAuth()
       const orders = ref([]);
     
-      const YesOrder = ref(true)
+      const YesOrder = ref(false)
       const NoOrder = ref(false)
 
       const id = Math.floor(Math.random()*100000000000)+1;
