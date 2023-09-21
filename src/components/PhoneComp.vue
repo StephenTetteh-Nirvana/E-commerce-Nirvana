@@ -480,7 +480,8 @@ import {db} from '@/main.js'
   }
                 
         }
-            
+
+
 
 
 
@@ -883,7 +884,7 @@ button{
 @media (max-width:767px){
    .mother-box{
       grid-template-columns:repeat(2,1fr);
-      margin-left:20px;
+      /* margin-left:20px; */
       margin-top:30px;
    }
    .update{

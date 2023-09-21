@@ -5,7 +5,6 @@
       <h1 class="head">Billing Info</h1>
       <p class="head-p">Please choose a payment method <br/>and fill out the empty fields</p>
 
-
       <div class="header">
                 <div class="payments">
                     <div class="box-one">
@@ -65,6 +64,12 @@
                         </form>
 
                         <div class="hidden">Jfjd</div>
+
+                        <div class="back-to-shopping">
+                            <router-link class="shopping-route" to="/checkout">
+                                <h2>Back to Shopping</h2>
+                            </router-link>
+                        </div>
                     </div>
 
 </template>
@@ -210,6 +215,16 @@ em{
     margin-top:20px;
     text-align:center;
 }
+.back-to-shopping{
+    width:20%;
+    position:absolute;
+    top:40px;
+    left:30px;
+}
+.shopping-route{
+    color:black;
+    text-decoration:none;
+}
 .payments{
     width:20%;
     text-align:center;
@@ -322,14 +337,17 @@ em{
     height:470px;
     font-weight:bolder;
 }
-.cart{
-   position:absolute;
-   top:20px;
-   left:10px;
+.back-to-shopping{
+    width:40%;
+    top:30px;
+    left:20px;
 }
-.shopping-cart{
-    font-size:15px;
-    padding:10px 10px;
+.back-to-shopping h2{
+    font-size:16px;
+}
+.shopping-route{
+    color:black;
+    text-decoration:none;
 }
 .payments{
     width:80%;

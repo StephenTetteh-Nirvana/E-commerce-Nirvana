@@ -348,19 +348,19 @@
      align-items:center;
  }
  .hidden{
-     padding:10px;
-     background-color:#ffffff;
-     visibility:hidden;
-     border:1px solid black;
-     position:absolute;
-     top:0px;
-     z-index:1;
-     opacity:0;
-     left:-150px;
-     border-radius:18px;
-     color:black;
-     width:300px;
-     transition:0.5s all ease;
+    padding:10px;
+    background-color:#ffffff;
+    visibility:hidden;
+    border:1px solid black;
+    position:absolute;
+    top:0px;
+    z-index:1;
+    opacity:0;
+    left:-200px;
+    border-radius:18px;
+    color:black;
+    width:300px;
+    transition:0.5s all ease;
  }
  .account-section:hover .hidden{
      opacity:1;

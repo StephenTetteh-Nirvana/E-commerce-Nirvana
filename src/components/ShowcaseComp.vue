@@ -26,31 +26,6 @@
  export default{
       name:'ShowcaseComp'
  }
-
-    // const images = [
-    //     //  require('../images/xr.jpg'),  
-    //     //  require('../images/airpods.jpg'),
-    //     //  require('../images/white-sneaker.jpg')
-    // ];
-    // const currentIndex = ref(0);
-
-    // const currentImage = computed(() => images[currentIndex.value]);
-
-    // const startImageSlider = () => {
-    //   setInterval(() => {
-    //     currentIndex.value++;
-    //     if (currentIndex.value === images.length) {
-    //       currentIndex.value = 0;
-    //     }
-    //   }, 2000);
-    // };
-
-    // onMounted(startImageSlider);
-
-    // return{
-    //     currentImage
-    // }
-    // }
 </script>
 
 <style scoped>
@@ -62,12 +37,14 @@
    
 }
 .image-box{
-  background-image:url(../images/cream-shirt.png);
+  background-image:url(../images/black-shirt.png);
   background-repeat:no-repeat;
   background-size:contain;
   background-position:center;
   height: 80vh;
-     animation-name: slideIn;
+  position:relative;
+  right:-100%;
+     animation-name: slidein;
     animation-duration:2s;
     animation-fill-mode:forwards;
     transition:all 0.5s ease-in-out;
@@ -98,7 +75,7 @@
   border-radius: 10px;
 }
 
-@keyframes slideIn{
+@keyframes slidein{
     0%{right:-100%}
     100%{right:3%}
 }

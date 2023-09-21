@@ -351,7 +351,7 @@ export default {
     top:0px;
     z-index:1;
     opacity:0;
-    left:-150px;
+    left:-200px;
     border-radius:18px;
     color:black;
     width:300px;
