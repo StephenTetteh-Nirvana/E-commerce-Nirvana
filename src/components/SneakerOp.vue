@@ -1,17 +1,17 @@
 <template>
     <div class="container">
            <div class="head">
-              <h1>Laptops</h1>
+              <h1>Sneakers</h1>
              </div>
 
              <div class="mother-box">
-                <div v-for="laptop in laptops" :key="laptop.id">
+                <div v-for="sneaker in sneakers" :key="sneaker.id">
                 <div class="product-box">
-                    <img :src="require('../images/' + laptop.image)" alt="Product Image" />
+                    <img :src="require('../images/' + sneaker.image)" alt="Product Image" />
                     <div class="box-one">
-                        <h3>{{ laptop.name }}</h3>
-                        <h2>${{ laptop.price }}.00</h2>
-                        <button class="btn-one" @click="addToCart(laptop)">Add To Cart</button>
+                        <h3>{{ sneaker.name }}</h3>
+                        <h2>${{ sneaker.price }}.00</h2>
+                        <button class="btn-one" @click="addToCart(sneaker)">Add To Cart</button>
                     </div>
                  
                 </div>
@@ -49,11 +49,11 @@ import {db} from '@/main.js'
 import store from '../store.js'
 
 export default {
-    name:'LaptopComp',
+    name:'SneakerOp',
 
     setup() {
 
-        const laptops = ref([])
+        const sneakers = ref([])
         const auth = getAuth()
         const updateCart = ref(false)
         const updateDone = ref(false)
@@ -61,9 +61,9 @@ export default {
 
             const loadProducts = async () => {
                 try {
-                    const productsCollection = collection(db, 'Laptops');
+                    const productsCollection = collection(db, 'Sneakers');
                     const snapshot = await getDocs(productsCollection);
-                    laptops.value = snapshot.docs.map((doc) => ({
+                    sneakers.value = snapshot.docs.map((doc) => ({
                     id: doc.id,
                     name:doc.data().Name,
                     price:doc.data().Price,
@@ -78,7 +78,7 @@ export default {
 
               
 
-                const addToCart= async(laptop)=>{
+                const addToCart= async(sneaker)=>{
                     onAuthStateChanged(auth,(user)=>{
                     if(!user){
                         Swal.fire({
@@ -101,10 +101,10 @@ export default {
                     const cartArray = userData.cart || [];
 
                     const lap = {
-                        id:laptop.id,
-                        name: laptop.name,
-                        price: laptop.price,
-                        image: laptop.image,
+                        id:sneaker.id,
+                        name: sneaker.name,
+                        price: sneaker.price,
+                        image: sneaker.image,
                         quantity:1
                     }
 
@@ -141,7 +141,7 @@ export default {
 
 
         return{
-            laptops,
+            sneakers,
             loadProducts,
             addToCart,
             updateCart,
@@ -229,7 +229,7 @@ export default {
 .mother-box{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    row-gap:40px;
+    row-gap:10px;
     margin-top:70px;
     place-items:center;
     width:90%;
