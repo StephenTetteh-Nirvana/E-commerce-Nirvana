@@ -14,6 +14,10 @@
                                                 <h2>$700.00</h2>
                                                 <button class="btn-one" @click="add">Add To Cart</button>
                                         </div>
+
+                                        <!-- <div class="box-two">
+                                           <button class="item-added-btn">Item Added</button>
+                                       </div> -->
                                     
                                 </div>
                      </div>
@@ -642,6 +646,18 @@ button{
     color:white;
 }
 
+.item-added-btn{
+    background:transparent;
+    width:40%;
+    font-weight:bolder;
+    border:2px solid black;
+    text-align:center;
+    /* border-radius:25px; */
+    margin-left:100px;
+    font-size:15px;
+    padding:10px;
+}
+
 
   /* SECOND PRODUCT BOX */
   .second-image{
@@ -980,6 +996,19 @@ button{
     font-size:18px;
 }
 .btn-one{
+    background:transparent;
+    width:70%;
+    font-weight:bolder;
+    text-align:center;
+    border-radius:0px;
+    margin-left:5px;
+    font-size:13px;
+    padding:10px;
+    border:orangered;
+    background-color:orangered;
+    color:white;
+}
+.item-added-btn{
     background:transparent;
     width:70%;
     font-weight:bolder;

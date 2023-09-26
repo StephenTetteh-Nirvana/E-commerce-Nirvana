@@ -11,10 +11,10 @@
                         </div>
 
       
-                    <div class="tr-head" v-for= "product in cartArray"      :key="product.serial">
+                    <div class="tr-head" v-for= "product in cartArray" :key="product.serial">
                         <div class="product-box">
                                 <div class="image-box" >
-                                        <img :src="product.imagePath" alt="Product Image" >
+                                    <img :src="require('../images/' + product.image)" alt="Product Image" />
 
                                         <div class="brand-box">
                                            <div class="mother-left">
@@ -40,12 +40,12 @@
                                 
                                 <div class="quantity-box">
                                     
-                                        <td><button @click="subtract(product.serial)" class="subtract">-</button></td>
+                                        <td><button @click="subtract(product.id)" class="subtract">-</button></td>
                                         <div>
                                         <td><button class="quantity">{{product.quantity}}</button></td>
                                         </div>
-                                        <td><button @click="add(product.serial)" class="add">+</button></td>
-                                    <div class="delete-box"><button class="button-delete" @click="deleteFromCart(product.serial)">
+                                        <td><button @click="add(product.id)" class="add">+</button></td>
+                                    <div class="delete-box"><button class="button-delete" @click="deleteFromCart(product.id)">
                                         <img class="delete" src="../images/remove.png"/>
                                         </button>
                                         </div>
@@ -106,7 +106,7 @@ export default {
         
 
 
-const add = async (serial) => {
+const add = async (id) => {
     try {
         const user = auth.currentUser
         const userId = user.uid
@@ -116,7 +116,7 @@ const add = async (serial) => {
       const userData = userSnapshot.data();
       const cartData = userData.cart || [];
 
-      const productIndex = cartData.findIndex((product) => product.serial === serial);
+      const productIndex = cartData.findIndex((product) => product.id === id);
       if (productIndex > -1) {
         const product = cartData[productIndex];
         product.quantity +=1;
@@ -130,7 +130,7 @@ const add = async (serial) => {
     }
   };
 
-  const subtract = async (serial) => {
+  const subtract = async (id) => {
     try {
         const user = auth.currentUser
         const userId = user.uid
@@ -140,7 +140,7 @@ const add = async (serial) => {
       const userData = userSnapshot.data();
       const cartData = userData.cart || [];
 
-      const productIndex = cartData.findIndex((product) => product.serial === serial);
+      const productIndex = cartData.findIndex((product) => product.id === id);
       if (productIndex > -1) {
         const product = cartData[productIndex];
         product.quantity -=1 ;
@@ -156,7 +156,7 @@ const add = async (serial) => {
   };
 
             //Function that deletesfrom the cart arrat based on the index of the product adn then updates the cartArray
-    const deleteFromCart = async (serial) => {
+    const deleteFromCart = async (id) => {
       try {
         const user = auth.currentUser
         const userId = user.uid
@@ -166,7 +166,7 @@ const add = async (serial) => {
         if (userDoc.exists()) {
           const cartArray = userDoc.data().cart;
 
-          const indexToRemove = cartArray.findIndex(product => product.serial === serial); // Find the index of the object to be removed based on serial data property
+          const indexToRemove = cartArray.findIndex(product => product.id === id); // Find the index of the object to be removed based on serial data property
     
           if (indexToRemove !== -1) {
         // Create a copy of the cart array and remove the object from the copy
