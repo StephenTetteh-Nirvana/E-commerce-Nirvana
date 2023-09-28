@@ -424,11 +424,11 @@ export default {
 }
 .navs li{
     text-decoration:none;
-    /* border-bottom:1px solid grey; */
     margin-top:10px;
     color:black;
     list-style:none;
     width:100%;
+    height:100%;
 }
 .navs li:hover{
      color:red;

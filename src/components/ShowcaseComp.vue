@@ -37,7 +37,7 @@
    
 }
 .image-box{
-  background-image:url(../images/black-shirt.png);
+  background-image:url(../images/cream-shirt.png);
   background-repeat:no-repeat;
   background-size:contain;
   background-position:center;
