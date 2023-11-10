@@ -166,7 +166,7 @@ const add = async (id) => {
         if (userDoc.exists()) {
           const cartArray = userDoc.data().cart;
 
-          const indexToRemove = cartArray.findIndex(product => product.id === id); // Find the index of the object to be removed based on serial data property
+          const indexToRemove = cartArray.findIndex(product => product.id === id); // Find the index of the object to be removed based on id
     
           if (indexToRemove !== -1) {
         // Create a copy of the cart array and remove the object from the copy

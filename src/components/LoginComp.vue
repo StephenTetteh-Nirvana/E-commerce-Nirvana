@@ -13,7 +13,7 @@
                                           <p>Submit the form below to log in to your account<br/>
                                             <span>Or</span>
                                         </p>
-                                           <p class="hit-to-reg">Hit <router-link class="to-register" to="/register">Sign Up</router-link> to create an account.</p>
+                                        <p class="hit-to-reg">Hit <router-link class="to-register" to="/register">Sign Up</router-link> to create an account.</p>
                                          
                                         </div>
                                         </div>
@@ -22,31 +22,50 @@
                                             <input class="input-one" type="text"  v-model="email" required/><br/>
                                             <label for="email" class="label-one">Email</label>
                                             <br/>
-                                            <input class="input-two" type="password" v-model="password" required/>
-                                            <label for="password" class="label-two">Password</label>
+                                            <input class="input-two" :type="inputConfirm" v-model="password" required/>
+                                            <label for="passwordConfirm" class="label-two">Password</label>
+                                            <button class="showButton" @click="togglePasswordConfirm">
+                                               <img src="../images/icons8-eye-30.png"/>
+                                            </button>
                                         </div>
                                         <div class="bottom-box">
+                                            <router-link to="/reset" class="reset">Forgot Password?</router-link>
                                             <button @click="LogIn" class="login">Sign In</button>
-                                            <div v-if="errorBox" class="error">
-                                                <div v-if="errMsg" class="message-box">
+                                            <!-- <div v-if="errorBox" class="error">
+                                                <div class="message-box">
                                                 <h1>{{ errMsg }}</h1>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                             </form> 
                    </div>
                    <div v-if="loader" class="preloader">
-    <div class="loader"></div>
+                   <div class="loader"></div>
+
+                  
         
   </div>
+
+  <div v-if="showError"  class="error-display">
+                                 <div class="error">
+                                    <div class="message-box">
+                                        <img class="danger" src="../images/icons8-danger-64.png"/>
+                                        <button class="close" @click="close">
+                                            <img src="../images/icons8-close-24.png"/>
+                                        </button>
+                                    <h1>{{ errMsg }}</h1>
+                                    </div>
+                                </div>
+                            </div>
                 
     </div>
 </template>
 
 
 <script>
+import Swal from "sweetalert2"
 import store from "../store.js"
-import{ref} from 'vue'
+import{ref,watch} from 'vue'
 import { useRouter } from 'vue-router'
 import{getAuth,signInWithEmailAndPassword} from 'firebase/auth'
 export default {
@@ -56,19 +75,32 @@ export default {
           const email =  ref('')
           const password = ref('')
           const errMsg=ref("")
-          const errorBox=ref(true)
+          const showError = ref(false)
           const router = useRouter()
           const auth = getAuth()
           const loader = ref(false)
 
+
+          const passwordConfirm = ref(false);
+          const togglePasswordConfirm = () => {
+            passwordConfirm.value = !passwordConfirm.value;
+            };
+
+            const inputConfirm = ref('password');
+            watch(passwordConfirm, (newValue) => {
+            inputConfirm.value = newValue ? 'text' : 'password';
+            });
+
+            
+            const close = ()=>{
+                showError.value = false;
+            }
+
+
+
         async function LogIn(){
-              
-              if(email.value === '' || password.value === ''){
-                loader.value = false;
-                errorBox.value = false;
-              }else{
+              if(email.value !== '' || password.value !== ''){
                 loader.value = true;
-              }
                 await signInWithEmailAndPassword(auth,email.value,password.value)
             .then((data)=>{
             console.log(data)
@@ -77,12 +109,15 @@ export default {
             router.replace('/products')
             })
             .catch((error)=>{
+                showError.value = true;
     console.log(error.code)
     if (error.code === 'auth/invalid-email') {
         errMsg.value ='The email is incorrect!'
         } else if (error.code === 'auth/wrong-password') {
        errMsg.value='Please check your password'
-        } else if (error.code === 'auth/user-not-found') {
+        } else if (error.code === 'auth/missing-password') {
+       errMsg.value='Please enter your password'
+         } else if (error.code === 'auth/user-not-found') {
         errMsg.value = 'There is no user with this account'
         } else {
           (error.code==='auth/network-request-failed')
@@ -90,11 +125,16 @@ export default {
         }
 
         setTimeout(()=>{
-            errorBox.value = true;
-            errMsg.value = "",
             loader.value = false
-        },1500)
+        },1000)
     })
+              }
+    
+              else{
+                Swal.fire("Please Input Your Details")
+              }
+            
+              
         }
 
            return{
@@ -105,7 +145,11 @@ export default {
             router,
             LogIn,
             loader,
-            errorBox
+            showError,
+            togglePasswordConfirm,
+            passwordConfirm,
+            inputConfirm,
+            close
            }
 }
 }
@@ -115,6 +159,9 @@ export default {
 *{
     margin:0px;
     padding:0px;
+}
+.invalid-email{
+    color:red;
 }
 .preloader {
   /* Add styles to center the preloader on the page */
@@ -233,21 +280,82 @@ export default {
 .image-container img:hover{
     cursor:pointer;
 }
-.error{
-   margin-top:20px;
+.error-display{
+    position:absolute;
+    top:0;
+    left:0;
+    height:100vh;
+    width:100%;
+    background:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75));
+    transform:translateY(-160%);
+    overflow:hidden;
+    transition:opacity 300ms;
+    animation-name:errorDisplay;
+    animation-fill-mode:forwards;
+    animation-duration:0.5s;
+    animation-delay:0.5s;
+    z-index:1000;
 }
+@keyframes errorDisplay{
+    0%{
+       transform:translateY(-100%);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+.error{
+    background:#ffffff;
+    padding:20px;
+   margin-top:10px;
+   position:absolute;
+   top:50%;
+   left:50%;
+   transform:translate(-50%,-50%);
+   border-radius:5px;
+}
+.close{
+    background:transparent;
+    border:none;
+    position:absolute;
+    left:90%;
+    top:10%;
+}
+.close img{
+    width:20px;
+}
+.danger{
+    width:30px;
+}
+
+
 .message-box{
+    /* border:1px solid black; */
     width:100%;
     text-align:center;
     padding:10px;
     border-radius:10px;
+    margin-top:10px;
     background:transparent;
+   
 }
 .message-box h1{
     /* text-align:center; */
-    color:red;
+    color:black;
+    font-weight:bolder;
     font-size:17px;
     /* border:1px solid black; */
+}
+.showButton{
+    background:transparent;
+    cursor:pointer;
+    border:none;
+}
+.showButton img{
+    width:20px;
+}
+.showButton:active{
+    transform:scale(0.9);
 }
 h1{
     text-align:center;
@@ -315,6 +423,9 @@ h2{
 input:active{
     border:3px red;
 }
+.reset{
+    margin-left:200px;
+}
 .bottom-box{
     position:relative;
     top:30%;
@@ -333,7 +444,7 @@ input::placeholder{
     color:black;
     font-size:15px;
 }
-input[type="password"]{
+.input-two{
     margin-top:10px;
     color:black;
     background:transparent;

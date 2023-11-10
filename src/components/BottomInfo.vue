@@ -1,56 +1,37 @@
 <template>
-    <div class="info-table">
-               <div class="info-grid">
+  <div class="image">
+     <div class="center-text">
 
-                   <div class="info-grid-1">
-                    <h1>My Account</h1>
-                        <ul>
-                            <li><a>Orders</a></li>
-                            <li><a>Checkout</a></li>
-                            <li><a>Cart</a></li>
-                        </ul>
-                   </div>
+      <div class="image-container"> 
+        <img src="../images/icons8-worldwide-delivery-50.png"/>
+         <h1 class="urban">TrendyEra</h1>
+      </div>
 
-                   <div class="info-grid-2">
-                    <h1>Categories</h1>
-                        <ul>
-                            <router-link class="route" to="/products">
-                                <li>Laptops</li>
-                            </router-link>
-                            <router-link class="route" to="/products">
-                                <li>Sneakers</li>
-                            </router-link>
-                            <router-link class="route" to="/products">
-                                <li>Men's Clothing</li>
-                            </router-link>
-                            <router-link class="route" to="/products">
-                                <li>Women's Clothing</li>
-                            </router-link>
-                        </ul>
-                   </div>
+     <p>This is the official website of TrendyEra.TrendyEra is basically an online market and our only purpose is to serve u with the best and latest products on the market at a very affordable price.</p>
 
-                   <div class="info-grid-3">
-                    <h1>About</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit modi molestiae expedita dolores. Explicabo praesentium obcaecati quo, voluptates corrupti, </p>
-                   </div>
+        <ul>
+          <li>
+            <img src="../images/icons8-facebook-48.png"/>
+          </li>
+          <li>
+            <img src="../images/icons8-twitter-48.png"/>
+          </li>
+          <li>
+            <img src="../images/icons8-instagram-48.png"/>
+          </li>
+          <li>
+            <img src="../images/icons8-linkedin-48.png"/>
+          </li>
+          <li>
+            <img src="../images/icons8-pinterest-48.png"/>
+          </li>
+        </ul>
 
-                   <div class="info-grid-4">
-                    <h1>Useful links</h1>
-                    <ul>
-                        <router-link to="/" class="route"><li>Home</li></router-link>
-                        <router-link to="/about" class="route"><li>About</li></router-link>
-                        <router-link to="/contact" class="route"><li>Contact</li></router-link>
-                        <router-link to="/products" class="route"><li>Products</li></router-link>
-                    </ul>
-                   </div>
-                
-               </div>
-               <footer>
-                <h1>CopyRight&copy;2023</h1>
-               </footer>
-
-               <div class="hidden">hidden</div>
+      <footer>&copy;2023 All Rights Reserved.<span>TrendyEra EnterPrises</span></footer>
     </div>
+
+
+  </div>
 </template>
 
 <script>
@@ -60,78 +41,66 @@
 </script>
 
 <style scoped>
-.hidden{
-    opacity:0;
-    height:60px;
+.image{
+    background-image:url(../images/clouds.jpg);
+    background-repeat:no-repeat;
+    background-position: center;
+    background-size:cover;
+    height:50vh;
+    position:relative;
+    text-align:center;
 }
-.route{
-    color:white;
-    text-decoration:none;
+.center-text{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
 }
-.route:hover{
-    opacity:0.5;
+.center-text h1{
+  color:red;
+}
+.center-text p{
+  margin-top:20px;
+}
+.urban{
+  font-family: 'ADLaM Display', sans-serif;
+    font-size:40px;
+    color:red;
+    transform:translateY(10px);
+    margin-left:10px;
+}
+span{
+  color:red;
+  font-weight:bold;
+}
+.image-container{
+    margin-top:10px;
+    display:flex;
+    text-align:center;
+    margin-left:30%;
+}
+.image-container img{
+    margin-top:10px;
+    width:50px;
+    height:50px;
+}
+img:hover{
+    cursor:pointer;
 }
 ul{
-    margin-top:20px;
+  margin-top:10px;
 }
-li{
-    list-style:none;
+ul li{
+  display:inline;
+  list-style:none;
+  margin-left:10px;
+
 }
-.info-table{
-    background-color:#122640;
-}
-.info-table h1{
-    font-size:20px;
-    margin-top:30px;
-}
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    color:white;
-    margin-left:90px;
-}
-.info-grid-3 p{
-    margin-top:20px;
-   width:60%;
+ul li img:hover{
+  transform:scale(1.1);
+  transition:300ms transform;
 }
 footer{
-    text-align:center;
-    font-size:18px;
-    margin-top:30px;
-    color:white;
+  margin-top:20px;
 }
-
-@media screen and (max-width:768px){
-    .info-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    color:white;
-    margin-left:50px;
-    }
-    .info-table h1{
-        font-size:15px;
-        margin-top:30px;
-    }
-    .info-grid-3 p{
-        margin-top:10px;
-       width:70%;
-       font-size:10px;
-    }
-    ul{
-        margin-top:5px;
-    }
-    li{
-        font-size:13px;
-    }
-    a:hover{
-        opacity:0.5;
-        cursor:pointer;
-    }
-    footer{
-    text-align:center;
-    font-size:12px;
-    margin-top:10px;
-    color:white;
-    }
-    }
 </style>

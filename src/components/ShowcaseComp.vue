@@ -70,8 +70,8 @@
   margin-top:20px;
   letter-spacing:2px;
   color:white;
-  background-color:orangered;
-  border:1px solid orangered;
+  background-color:red;
+  border:1px solid red;
   border-radius: 10px;
 }
 

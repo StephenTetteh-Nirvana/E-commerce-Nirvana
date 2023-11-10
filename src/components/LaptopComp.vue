@@ -58,10 +58,12 @@ export default {
         const updateCart = ref(false)
         const updateDone = ref(false)
         const updateFail = ref(false)
+       
+
 
             const loadProducts = async () => {
                 try {
-                    const productsCollection = collection(db, 'Laptops');
+                    const productsCollection = collection(db, 'Laptops');[]
                     const snapshot = await getDocs(productsCollection);
                     laptops.value = snapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -100,6 +102,8 @@ export default {
                     const userData = docSnapshot.data();
                     const cartArray = userData.cart || [];
 
+               
+
                     const lap = {
                         id:laptop.id,
                         name: laptop.name,
@@ -111,7 +115,7 @@ export default {
                    cartArray.push(lap);
 
     await updateDoc(userDoc, { cart: cartArray });
-
+   
     console.log('Data added to the cart array successfully.');
     store.commit('setCart', cartArray);
     console.log('Data added to the cart state successfully.');
@@ -122,8 +126,8 @@ export default {
                         updateDone.value = false;
                        
                     },1500)
-    
-    
+
+
   }catch (error) {
     updateCart.value = false;
     updateFail.value = true;
@@ -135,18 +139,48 @@ export default {
                  
     }
 
+    const itemAdded = async(laptop) =>{
+
+        try{
+            const user =  auth.currentUser;
+            const userId = user.uid;
+         
+        const userCollection = collection(db,'authenticated')
+        const userDoc = doc(userCollection,userId)
+        const snapshot = await getDoc(userDoc)
+        const data = snapshot.data();
+        const userData = data.cart;
+
+       // Check if the product with the same ID already exists in the cart
+                const isProductAlreadyInCart = userData.some(product => product.id === laptop.id);
+
+                if (isProductAlreadyInCart) {
+                console.log('Product with the same ID already exists in the cart. Cannot add duplicate.');
+                return; // Exit the function if the product already exists
+                }
+
+        }catch(error){
+            console.log('Error fetching user data',error)
+        }
+       
+    }
+
     onMounted(()=>{
-                    loadProducts()
+                    loadProducts(),
+                    itemAdded()
+                  
                 })
 
 
         return{
             laptops,
             loadProducts,
+            itemAdded,
             addToCart,
             updateCart,
             updateDone,
-            updateFail
+            updateFail,
+           
         }
         
     }

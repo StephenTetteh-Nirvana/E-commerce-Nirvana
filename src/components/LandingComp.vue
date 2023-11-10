@@ -141,6 +141,13 @@
                             </button>
                  
                         <button @click="logout" class="logout">Sign Out</button>
+
+                        <router-link to="/reset">
+                            <button class="reset-div">
+                           <img src="../images/icons8-gear-30.png"/>
+                           <span class="tooltip">Reset Password</span>
+                           </button>
+                        </router-link>
                     </div>
 
 
@@ -305,6 +312,7 @@ import {db} from '@/main.js'
                     .then(()=>{
                         console.log('User Logged Out')
                         store.commit('setCart',[])
+                        localStorage.clear()
                         router.replace('/login')
                     })
                     .catch((err)=>{
@@ -500,6 +508,48 @@ import {db} from '@/main.js'
     cursor:pointer;
   
 }
+.reset-div{
+    border:none;
+    background:transparent;
+    margin-left:20px;
+    opacity:0.5;
+    transform: translateY(10px);
+}
+.reset-div:hover{
+    opacity:1;
+}
+.tooltip {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    font-size:13px;
+    letter-spacing:1px;
+    z-index: 1;
+    bottom: 110%;
+    left: 52%;
+    transform: translateX(-50%);
+    transition: 0.1s ease-in-out;
+    white-space: nowrap;
+  }
+  .tooltip::before{
+    content:"";
+    position:absolute;
+    left:52%;
+    top:80%;
+    transform:translateX(-55%);
+     border:13px solid;
+     border-color:#000 #0000 #0000 #0000;
+}
+
+  .reset-div:hover .tooltip {
+    visibility: visible;
+    bottom: 120%;
+    cursor:pointer;
+  }
 .links{
     border-right:1px solid grey;
     width:110px;

@@ -10,6 +10,8 @@ import OrderView from "../views/OrderView.vue";
 import PaymentView from "../views/PaymentView.vue";
 import ContactInfo from "../views/ContactInfo.vue";
 import UserView from "../views/UserView.vue";
+import PasswordReset from "../components/PasswordReset.vue";
+
 
 
 
@@ -72,6 +74,11 @@ const routes = [
     path: "/payment",
     name:"payment",
    component:PaymentView,
+  },
+  {
+    path: "/reset",
+    name:"PasswordReset",
+   component:PasswordReset,
   },
 ];
 

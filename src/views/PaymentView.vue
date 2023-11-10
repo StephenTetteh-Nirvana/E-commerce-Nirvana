@@ -65,11 +65,11 @@
 
                         <div class="hidden">Jfjd</div>
 
-                        <div class="back-to-shopping">
+                        <!-- <div class="back-to-shopping">
                             <router-link class="shopping-route" to="/checkout">
                                 <h2>Back to Shopping</h2>
                             </router-link>
-                        </div>
+                        </div> -->
                     </div>
 
 </template>
@@ -106,12 +106,12 @@ import {useRouter} from 'vue-router'
         
 
         const pay = async () => {
-    if (name.value === "" && email.value === "" && card.value === "" && cvv.value === "" && date.value === "") {
+    if (name.value === "" || card.value === "" && cvv.value === "" || date.value === "" ){
         Swal.fire(
             'Couldn\'t Proceed?',
             'Please provide all your details',
             'question'
-        );
+        )
     } else{
         Swal.fire({
             position: 'top-end',
@@ -146,6 +146,7 @@ import {useRouter} from 'vue-router'
 
                 console.log('Data transferred successfully');
                 store.commit('setCart', []);
+                localStorage.clear()
                 router.push('/orders');
             } else {
                 console.error('User document does not exist');

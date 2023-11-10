@@ -2,24 +2,20 @@
   <div class="parent-container">
 
       <div v-if ="YesOrder" class="container-2">
-
-        <div class="center-notification">
-            <h1>Thank you for your order</h1>
-            <p>Your order id is #{{ id }}</p>
-        </div>
-
           <h1 class="header">Order History</h1>
 
-        <div class="order-box" v-for="order in orders" :key="order.serial">
+        <div class="order-box" v-for="order in orders" :key="order.name">
           <div class="first-box">
-             <h3 class="serial">#{{ order.serial }}</h3>
-             <img :src="order.imagePath"/>
+             <img :src="require('../images/' + order.image)"/>
              <h3 class="name">{{ order.name }}</h3>
           </div>
          
             <div class="second-box">
-              <button class="status">Paid</button>
-              <h4>{{ order.quantity }}</h4>
+              <div class="button-box"> 
+                <button class="status">Paid</button>
+              </div>
+             
+              <h4>{{ order.quantity }} piece(s)</h4>
               <h4>${{order.price}}.00</h4>
             </div>
         </div>
@@ -55,20 +51,18 @@ export default {
       const YesOrder = ref(false)
       const NoOrder = ref(false)
 
-      const id = Math.floor(Math.random()*100000000000)+1;
-
       onMounted(()=>{
-        pay();
-
-
         onAuthStateChanged(auth,(user)=>{
-          if(!user){
-            NoOrder.value = true;
-
-          }else{
+          if(user){
+            pay()
             YesOrder.value = true;
+            console.log("user object is not null")
+          }else{
+            NoOrder.value = true;
+            console.log("user object is null")
           }
         })
+       
       })
 
         const pay = async () => {
@@ -84,20 +78,7 @@ if (userSnapshot.exists()) {
       const userData = userSnapshot.data();
       const orderData = userData.order || [];
      orders.value = orderData 
-
-
-if(orders.value.length === 0 ){
-                NoOrder.value = true;
-                console.log('empty')
-            }if(orders.value.length === 0){
-                YesOrder.value = false;
-            }
-            else{
-                YesOrder.value = true;
-                console.log('full')
-            }
 console.log('Data recieved successfully');
-
 } else {
   console.error('User document does not exist');
 }
@@ -109,8 +90,7 @@ console.log('Data recieved successfully');
         orders,
         pay,
         YesOrder,
-        NoOrder,
-        id
+        NoOrder
       }
     }
   }
@@ -161,12 +141,12 @@ console.log('Data recieved successfully');
 }
 .first-box img{
   height:100px;
-  width:20%;
+  width:30%;
 }
 .second-box{
   display:flex;
   margin-top:20px;
-  justify-content:space-evenly;
+  justify-content:space-around;
 }
 .name{
   font-size:25px;
@@ -174,18 +154,16 @@ console.log('Data recieved successfully');
   margin-top:30px;
   margin-left:20px;
 }
-
 .status{
-  padding:10px 10px;
-  background-color:green;
-  border:none;
-  height:30px;
-  color:white;
-  text-align:center;
-  font-size:15px;
-  letter-spacing:1px;
-  font-weight:bold;
-  border-radius:8px;
+ padding:10px 40px;
+ text-align:center;
+ background-color:rgb(33, 218, 33);
+ font-size:16px;
+ font-weight:300;
+ border:none;
+ border-radius:5px;
+ color:#ffffff;
+ cursor:pointer;
 }
 
 .no-order{

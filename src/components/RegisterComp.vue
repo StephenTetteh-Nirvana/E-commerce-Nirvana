@@ -14,45 +14,67 @@
                                           <p>Submit the form below to create an account<br/>
                                             <span>Or</span>
                                         </p>
-                                           <p class="hit-to-reg">Hit <router-link class="to-register" to="/login">Sign In</router-link> to login your an account</p>
+                                           <p class="hit-to-reg">Hit <router-link class="to-register" to="/login">Sign In</router-link> to login your  account</p>
                                          
                                         </div>
                                         </div>
                             <form class="input-content" @submit.prevent>
+                                <div class="top-hidden">hidden</div>
                                     <div class="input-box">
                                         <input class="input-one" type="text"  v-model="name" required/><br/>
                                             <label for="email" class="label-one">Name</label>
                                             <br/>
+
                                             <input class="input-two" type="text"  v-model="email" required/><br/>
                                             <label for="email" class="label-two">Email</label>
                                             <br/>
-                                            <input class="input-three" type="password" v-model="password" required/>
+
+                                            <input class="input-three" :type="inputType" v-model="password" required />
                                             <label for="password" class="label-three">Password</label>
+                                            <button class="showButton" @click="togglePasswordVisibility">
+                                               <img src="../images/icons8-eye-30.png"/>
+                                            </button>
+                                            <br/>
+
+                                            <input class="input-four" :type="inputConfirm" v-model="confirmPassword" required/>
+                                            <label for="passwordConfirm" class="label-four">Confirm Password</label>
+                                            <button class="showButton" @click="togglePasswordConfirm">
+                                               <img src="../images/icons8-eye-30.png"/>
+                                            </button>
                                         </div>
+
                                         <div class="bottom-box">
+                                            <div class="bottom-hidden">hidden</div>
                                             <button @click="Register" class="login">Sign Up</button>
-                                            <div v-if="errorBox" class="error">
-                                                <div v-if="errMsg" class="message-box">
-                                                <h1>{{ errMsg }}</h1>
-                                                </div>
-                                            </div>
                                         </div>
                             </form> 
                    </div>
 
                 
                    <div v-if="loader" class="preloader">
-                   <div class="loader"></div>
-       
-  </div>
+                         <div class="loader"></div>    
+                   </div>
+ 
+                    <div v-if="showError"  class="error-display">
+                                 <div class="error">
+                                    <div class="message-box">
+                                        <img class="danger" src="../images/icons8-danger-64.png"/>
+                                        <button class="close" @click="close">
+                                            <img src="../images/icons8-close-24.png"/>
+                                        </button>
+                                    <h1>{{ errMsg }}</h1>
+                                    </div>
+                                </div>
+                   </div>
                 
     </div>
 </template>
 
 
 <script>
+import Swal from "sweetalert2"
 import store from '../store.js'
-import {ref} from 'vue'
+import {ref,watch} from 'vue'
 import{getAuth,createUserWithEmailAndPassword,onAuthStateChanged} from 'firebase/auth'
 import {useRouter} from 'vue-router'
 import{doc,setDoc,collection} from 'firebase/firestore'
@@ -63,21 +85,46 @@ export default {
         const name = ref('')
         const email = ref('')
         const password = ref('')
-        const errorBox = ref(true)
+        const confirmPassword = ref('')
+        const showError = ref(false)
         const auth=getAuth()
           const errMsg=ref("")
           const loader = ref(false)
+          
 
         const router = useRouter()
+
+
+            const showPassword = ref(false);
+            const passwordConfirm = ref(false);
+
+            const togglePasswordVisibility = () => {
+            showPassword.value = !showPassword.value;
+            };
+
+            const inputType = ref('password');
+            watch(showPassword, (newValue) => {
+            inputType.value = newValue ? 'text' : 'password';
+            });
+
+            const togglePasswordConfirm = () => {
+            passwordConfirm.value = !passwordConfirm.value;
+            };
+
+            const inputConfirm = ref('password');
+            watch(passwordConfirm, (newValue) => {
+            inputConfirm.value = newValue ? 'text' : 'password';
+            });
+
+            const close = ()=>{
+                showError.value = false;
+            }
         
-        async function Register(){
-            if(name.value === '' || email.value ==='' || password.value=== ''){
-                loader.value = false;
-                errorBox.value = false;
-              }else{
-                loader.value = true;
-              }
-                 try {
+         const Register = async () =>{
+
+                if(confirmPassword.value === password.value){
+                    loader.value = true;
+                    try {
                     const { user } = await createUserWithEmailAndPassword(auth, email.value, password.value);
                     const createUserCollection = async (user) => {
                                 try {
@@ -90,6 +137,9 @@ export default {
                                     console.error('Error creating user collection:', error);
                                 }
                                 };
+
+                           
+                            
                         onAuthStateChanged(auth,(user) => {
                         if (user) {
                             createUserCollection(user);
@@ -110,7 +160,7 @@ export default {
                         
                         
                         catch(error){
-    // alert(error.message)
+    showError.value = true;
     console.log(error.code)
     if (error.code === 'auth/invalid-email') {
         errMsg.value ='The email is incorrect!'
@@ -118,17 +168,31 @@ export default {
        errMsg.value='Please check your password'
         } else if (error.code === 'auth/user-not-found') {
         errMsg.value = 'There is no user with this account'
-        } else {
+        } else if (error.code === 'auth/email-already-in-use') {
+        errMsg.value = 'Email Already Exists'
+        }
+        else if (error.code === 'auth/weak-password') {
+        errMsg.value = 'Password should be 6 characters or more'
+        }
+        else {
           (error.code==='auth/network-request-failed')
         errMsg.value='Please check your internet connection'
         }
 
+
         setTimeout(()=>{
-            errorBox.value = true;
-            errMsg.value = ""
             loader.value = false
-        },1500)
+        },1000)
+
     }
+              }else{
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Passwords don't match!",
+                    });
+              }
+                 
 }                               
 
        return{
@@ -136,9 +200,16 @@ export default {
         email,
         password,
         errMsg,
-        errorBox,
+        showError,
         Register,
-        loader
+        loader,
+        passwordConfirm,
+        inputType,
+        inputConfirm,
+        close,
+        confirmPassword,
+        togglePasswordConfirm,
+      togglePasswordVisibility,
        }
 }
 }
@@ -149,10 +220,41 @@ export default {
     margin:0px;
     padding:0px;
 }
+.error-display{
+    position:absolute;
+    top:0;
+    left:0;
+    height:100vh;
+    width:100%;
+    background:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75));
+    transform:translateY(-100%);
+    overflow:hidden;
+    transition:opacity 300ms;
+    animation-name:errorDisplay;
+    animation-fill-mode:forwards;
+    animation-duration:0.5s;
+    animation-delay:0.5s;
+    z-index:1000;
+}
+@keyframes errorDisplay{
+    0%{
+       transform:translateY(-100%);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+.bottom-hidden{
+    height:50px;
+    opacity:0;
+}
+.top-hidden{
+    height:50px;
+    opacity:0;
+}
 .preloader{
 position:absolute;
-position:absolute;
- top:50%;
+ top:60%;
  left:50%;
  transform:translate(-50%,-50%);
  border-radius:10px;
@@ -267,20 +369,43 @@ position:absolute;
     cursor:pointer;
 }
 .error{
-   margin-top:30px;
+    background:#ffffff;
+    padding:20px;
+   margin-top:10px;
+   position:absolute;
+   top:50%;
+   left:50%;
+   transform:translate(-50%,-50%);
+   border-radius:5px;
 }
+.close{
+    background:transparent;
+    border:none;
+    position:absolute;
+    left:90%;
+    top:10%;
+}
+.close img{
+    width:20px;
+}
+.danger{
+    width:30px;
+}
+
+
 .message-box{
     /* border:1px solid black; */
     width:100%;
     text-align:center;
     padding:10px;
     border-radius:10px;
+    margin-top:10px;
     background:transparent;
    
 }
 .message-box h1{
     /* text-align:center; */
-    color:red;
+    color:black;
     font-weight:bolder;
     font-size:17px;
     /* border:1px solid black; */
@@ -326,6 +451,7 @@ h2{
     font-weight:bold;
     width:86%;
     margin-top:-30px;
+  
 }
 .login:hover{
     cursor:pointer;
@@ -339,7 +465,7 @@ h2{
     letter-spacing:2px;
     color:black;
     position:absolute;
-    top:10%;
+    top:5%;
     left:8%;
     font-size:16px;
     /* pointer-events:none; */
@@ -349,7 +475,7 @@ h2{
     letter-spacing:2px;
     color:black;
     position:absolute;
-    top:45%;
+    top:30%;
     left:8%;
     font-size:16px;
     /* pointer-events:none; */
@@ -359,7 +485,17 @@ h2{
     letter-spacing:2px;
     color:black;
     position:absolute;
-    top:80%;
+    top:60%;
+    left:8%;
+    font-size:16px;
+    /* pointer-events:none; */
+    transition: 0.6s ease;
+}
+.label-four{
+    letter-spacing:2px;
+    color:black;
+    position:absolute;
+    top:90%;
     left:8%;
     font-size:16px;
     /* pointer-events:none; */
@@ -377,8 +513,25 @@ h2{
 }
 .input-three:focus~.label-three,
 .input-three:valid~.label-three{
-    top:100px;
+    top:110px;
     font-size:13px;
+}
+.input-four:focus~.label-four,
+.input-four:valid~.label-four{
+    top:175px;
+    font-size:13px;
+}
+
+.showButton{
+    background:transparent;
+    cursor:pointer;
+    border:none;
+}
+.showButton img{
+    width:20px;
+}
+.showButton:active{
+    transform:scale(0.9);
 }
 .bottom-box{
     position:relative;
@@ -399,8 +552,19 @@ input::placeholder{
     font-size:15px;
     opacity:1;
 }
-input[type="password"]{
+.input-three{
     margin-top:10px;
+    color:black;
+    background:transparent;
+    border:none;
+    outline:none;
+    appearance: none;
+    border-bottom:1px solid #e1e1e1;
+    padding:10px;
+    width:80%;
+}
+.input-four{
+    margin-top:30px;
     color:black;
     background:transparent;
     border:none;
@@ -420,11 +584,9 @@ input[type="password"]{
     background:transparent;
     text-align:center;
     width: 400px;
-    height:300px;
     font-weight:bolder;
     overflow: hidden;
-    border-radius: 8px;
-    margin-top:50px;
+    margin-top:100px;
 }
 
 @media screen and (max-width:767px){

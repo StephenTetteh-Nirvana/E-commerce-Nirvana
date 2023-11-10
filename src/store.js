@@ -20,6 +20,7 @@ const actions={
   loadCartFromLocalStorage({ commit }) {
     const savedCart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || []
     commit('setCart', savedCart)
+        
   },
   saveCartToLocalStorage({ state }) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.cart))
