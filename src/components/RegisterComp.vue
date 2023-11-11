@@ -18,7 +18,7 @@
                                          
                                         </div>
                                         </div>
-                            <form class="input-content" @submit.prevent>
+                            <form class="input-content" @submit.prevent novalidate>
                                 <div class="top-hidden">hidden</div>
                                     <div class="input-box">
                                         <input class="input-one" type="text"  v-model="name" required/><br/>
@@ -122,6 +122,10 @@ export default {
         
          const Register = async () =>{
 
+            if(name.value === "" && email.value === "" || password.value === "" && confirmPassword.value === ""){
+               Swal.fire("Please Complete The Form")
+            }
+            else{
                 if(confirmPassword.value === password.value){
                     loader.value = true;
                     try {
@@ -160,22 +164,37 @@ export default {
                         
                         
                         catch(error){
-    showError.value = true;
     console.log(error.code)
     if (error.code === 'auth/invalid-email') {
-        errMsg.value ='The email is incorrect!'
+        Swal.fire({
+        icon: "error",
+        title: "Invalid Email",
+        });
         } else if (error.code === 'auth/wrong-password') {
-       errMsg.value='Please check your password'
+            Swal.fire({
+        icon: "error",
+        title: "Please check your password",
+        });
         } else if (error.code === 'auth/user-not-found') {
-        errMsg.value = 'There is no user with this account'
+            Swal.fire({
+        icon: "error",
+        title: "No User Was Found",
+        });
         } else if (error.code === 'auth/email-already-in-use') {
-        errMsg.value = 'Email Already Exists'
+            Swal.fire({
+        icon: "error",
+        title: "Email Already Exists",
+        });
         }
         else if (error.code === 'auth/weak-password') {
-        errMsg.value = 'Password should be 6 characters or more'
+            Swal.fire({
+        icon: "error",
+        title: "Password should be 6 characters or more",
+        });
         }
         else {
           (error.code==='auth/network-request-failed')
+          showError.value = true;
         errMsg.value='Please check your internet connection'
         }
 
@@ -186,12 +205,10 @@ export default {
 
     }
               }else{
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Passwords don't match!",
-                    });
+                Swal.fire("Passwords don't match");
               }
+
+            }
                  
 }                               
 

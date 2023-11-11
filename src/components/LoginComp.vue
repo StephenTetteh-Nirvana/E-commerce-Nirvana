@@ -17,7 +17,7 @@
                                          
                                         </div>
                                         </div>
-                            <form class="input-content" @submit.prevent>
+                            <form class="input-content" @submit.prevent novalidate>
                                     <div class="input-box">
                                             <input class="input-one" type="text"  v-model="email" required/><br/>
                                             <label for="email" class="label-one">Email</label>
@@ -99,7 +99,7 @@ export default {
 
 
         async function LogIn(){
-              if(email.value !== '' || password.value !== ''){
+              if(email.value !== '' && password.value !== ''){
                 loader.value = true;
                 await signInWithEmailAndPassword(auth,email.value,password.value)
             .then((data)=>{
@@ -109,18 +109,37 @@ export default {
             router.replace('/products')
             })
             .catch((error)=>{
-                showError.value = true;
+           
     console.log(error.code)
     if (error.code === 'auth/invalid-email') {
-        errMsg.value ='The email is incorrect!'
+        Swal.fire({
+        icon: "error",
+        title: "Invalid Email",
+        });
         } else if (error.code === 'auth/wrong-password') {
-       errMsg.value='Please check your password'
+            Swal.fire({
+        icon: "error",
+        title: "Incorrect Password",
+        });
         } else if (error.code === 'auth/missing-password') {
-       errMsg.value='Please enter your password'
+            Swal.fire({
+        icon: "error",
+        title: "Please Enter Your Password",
+        });
          } else if (error.code === 'auth/user-not-found') {
-        errMsg.value = 'There is no user with this account'
+            Swal.fire({
+        icon: "error",
+        title: "There is no user with account",
+        });
+    }
+        else if (error.code === 'auth/user-disabled') {
+            Swal.fire({
+        icon: "error",
+        title: "User disabled",
+        });
         } else {
           (error.code==='auth/network-request-failed')
+          showError.value = true;
         errMsg.value='Please check your internet connection'
         }
 
@@ -131,7 +150,7 @@ export default {
               }
     
               else{
-                Swal.fire("Please Input Your Details")
+                Swal.fire("Please Complete The Form")
               }
             
               

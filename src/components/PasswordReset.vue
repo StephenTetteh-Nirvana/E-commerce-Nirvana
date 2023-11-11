@@ -57,7 +57,7 @@ export default {
         }else if(error.code == 'auth/user-not-found'){
             Swal.fire({
         icon: "error",
-        title: "Please check Your Email",
+        title: "No User Found",
         });
 
     }else if(error.code == 'auth/user-disabled'){

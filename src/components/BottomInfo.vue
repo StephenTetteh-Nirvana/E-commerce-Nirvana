@@ -22,15 +22,12 @@
           <li>
             <img src="../images/icons8-linkedin-48.png"/>
           </li>
-          <li>
-            <img src="../images/icons8-pinterest-48.png"/>
-          </li>
         </ul>
 
       <footer>&copy;2023 All Rights Reserved.<span>TrendyEra EnterPrises</span></footer>
     </div>
 
-
+      <div class="hidden">hidden</div>
   </div>
 </template>
 
@@ -41,6 +38,10 @@
 </script>
 
 <style scoped>
+.hidden{
+  height:100px;
+  opacity:0;
+}
 .image{
     background-image:url(../images/clouds.jpg);
     background-repeat:no-repeat;
@@ -102,5 +103,27 @@ ul li img:hover{
 }
 footer{
   margin-top:20px;
+  max-width:1000px;
+}
+@media screen and (max-width:767px){
+.image{
+    height:70vh;
+  }
+  .center-text{
+    width:100%;
+  }
+  .image-container{
+    margin-top:20px;
+    display:flex;
+    text-align:center;
+    margin-left:20%;
+}
+ul li{
+  margin-left:0px;
+}
+footer{
+  margin-top:10px;
+  width:100%;
+}
 }
 </style>
