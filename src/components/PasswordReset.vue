@@ -102,7 +102,7 @@ export default {
     margin-left:35%;
 }
 form p{
-    width:50%;
+   width:50%;
 }
 form h4{
     margin-top:10px;
@@ -153,4 +153,12 @@ position:absolute;
   100% { transform: rotate(360deg); }
 }
 
+@media screen and (max-width:767px){
+    .container{
+    margin-left:15%;
+}
+form p{
+   width:80%;
+}
+}
 </style>
