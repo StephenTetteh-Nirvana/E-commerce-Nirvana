@@ -19,6 +19,13 @@
                             </button>
                         </div>
 
+                        
+                        <div class="reset-box">
+                            <router-link to="/reset">
+                                <button class="reset-pass">Reset Password</button>
+                            </router-link>
+                        </div>
+
                         <div v-if="logIn" class="user-account-2">
                             <img class="sidebar-user" src="../images/icons8-user-32.png"/>
                             <br/>
@@ -824,6 +831,27 @@ footer{
     border-radius:20px;
     letter-spacing:2px;
     cursor:pointer;
+}
+
+.reset-box{
+    display:flex;
+    position:absolute;
+    left:40%;
+    top:20px;
+    margin-top:20px;
+}
+.reset-pass{
+    color:#191919;
+    padding:15px 15px;
+    font-size:16px;
+    text-decoration:none;
+    font-weight:bolder;
+    margin-left:20px;
+    border:none;
+    letter-spacing:1px;
+     border:none;
+    border-radius:15px;
+    letter-spacing:2px;
 }
      .image-container{
         margin-top:0px;

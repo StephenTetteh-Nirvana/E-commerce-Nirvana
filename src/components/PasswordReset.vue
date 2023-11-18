@@ -1,5 +1,11 @@
 <template>
     <div class="container">
+        <div class="prev-route"> 
+            <button @click="goToPreviousPage">
+                <img src="../images/icons8-circle-24.png"/>
+            </button>
+
+        </div>
         <form @submit.prevent="reset">
             <h1>{{ errMsg }}</h1>
           <h1>Password Reset</h1>
@@ -18,6 +24,7 @@
 
 <script>
 import Swal from 'sweetalert2'
+import { useRouter } from 'vue-router'
 import { getAuth,sendPasswordResetEmail } from 'firebase/auth'
 import {ref} from 'vue'
 
@@ -29,6 +36,11 @@ export default {
         const auth = getAuth()
         const errMsg = ref ("")
         const loader = ref(false)
+        const router = useRouter()
+
+        const goToPreviousPage = () => {
+           router.go(-1);
+    };
 
         const reset = async () => {
             try {
@@ -83,7 +95,8 @@ export default {
             email,
             reset,
             errMsg,
-            loader
+            loader,
+            goToPreviousPage
         }
         
     }
@@ -93,6 +106,9 @@ export default {
 </script>
 
 <style scoped>
+.prev-route{
+    display:none;
+}
 .container{
     display:flex;
     justify-content:center;
@@ -156,6 +172,19 @@ position:absolute;
 @media screen and (max-width:767px){
     .container{
     margin-left:15%;
+}
+.prev-route{
+    position:absolute;
+    left:40px;
+    top:80px;
+    display: block;
+}
+.prev-route button{
+    background:none;
+    border:none;
+}
+.prev-route img{
+    width:40px;
 }
 form p{
    width:80%;

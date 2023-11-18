@@ -4,6 +4,11 @@
       <div v-if ="YesOrder" class="container-2">
           <h1 class="header">Order History</h1>
 
+          <div class="center-notification">
+            <h1>Thank You For Your Purchase</h1>
+            <h3>Details Of Your Order Will Be Sent To Your Email</h3>
+          </div>
+
         <div class="order-box" v-for="order in orders" :key="order.name">
           <div class="first-box">
              <img :src="require('../images/' + order.image)"/>
@@ -47,6 +52,9 @@ export default {
     setup(){
       const auth = getAuth()
       const orders = ref([]);
+
+      const now = new Date().toLocaleDateString();
+      console.log(now)
     
       const YesOrder = ref(false)
       const NoOrder = ref(false)
@@ -90,6 +98,7 @@ console.log('Data recieved successfully');
         orders,
         pay,
         YesOrder,
+        now,
         NoOrder
       }
     }
@@ -109,11 +118,11 @@ console.log('Data recieved successfully');
 }
 .center-notification{
   text-align:center;
-  border:1px solid black;
+  border-radius:5px;
   background:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75));
   color:white;
   border:none;
-  transform:translateY(-100px);
+  transform:translateY(-180px);
   animation-name:slideIn;
   animation-delay:0.5s;
   animation-duration:0.4s;
@@ -121,7 +130,7 @@ console.log('Data recieved successfully');
 }
 @keyframes slideIn{
   0%{
-    transform:translateY(-100px);
+    transform:translateY(-180px);
   }
   100%{
     transform:translateY(0px);
@@ -141,7 +150,7 @@ console.log('Data recieved successfully');
 }
 .first-box img{
   height:100px;
-  width:30%;
+  width:25%;
 }
 .second-box{
   display:flex;
