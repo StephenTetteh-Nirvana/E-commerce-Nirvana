@@ -29,13 +29,12 @@
                                             </button>
                                         </div>
                                         <div class="bottom-box">
-                                            <router-link to="/reset" class="reset">Forgot Password?</router-link>
-                                            <button @click="LogIn" class="login">Sign In</button>
-                                            <!-- <div v-if="errorBox" class="error">
-                                                <div class="message-box">
-                                                <h1>{{ errMsg }}</h1>
-                                                </div>
-                                            </div> -->
+                                            <div>     
+                                               <button @click="LogIn" class="login">Sign In</button>
+                                            </div>
+                                            <div class="reset-box">
+                                                <router-link to="/reset" class="reset">Forgot Password?</router-link>
+                                            </div>
                                         </div>
                             </form> 
                    </div>
@@ -442,8 +441,12 @@ h2{
 input:active{
     border:3px red;
 }
-.reset{
+.reset-box{
     margin-left:200px;
+    margin-top:10px;
+}
+.reset{
+    text-decoration:none;
 }
 .bottom-box{
     position:relative;
@@ -510,6 +513,9 @@ input::placeholder{
     h2{
     margin-top:10px;
 }
+.reset-box{
+    margin-left:130px;
+}
 .hit-to-reg{
     margin-left:10px;
 }
@@ -524,7 +530,6 @@ input::placeholder{
     /* border:1px solid green; */
     text-align:center;
     width: 320px;
-    height:250px;
     font-weight:bolder;
     /* border:10px solid white; */
     margin-left:40px;

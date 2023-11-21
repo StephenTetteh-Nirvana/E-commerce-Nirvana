@@ -116,7 +116,7 @@ const add = async (id) => {
       const userData = userSnapshot.data();
       const cartData = userData.cart || [];
 
-      const productIndex = cartData.findIndex((product) => product.id === id);
+      const productIndex = cartData.findIndex((product) =>  product.id === id);
       if (productIndex > -1) {
         const product = cartData[productIndex];
         product.quantity +=1;

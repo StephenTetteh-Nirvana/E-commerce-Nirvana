@@ -44,7 +44,7 @@
                                         </div>
 
                                         <div class="bottom-box">
-                                            <div class="bottom-hidden">hidden</div>
+                                            <!-- <div class="bottom-hidden">hidden</div> -->
                                             <button @click="Register" class="login">Sign Up</button>
                                         </div>
                             </form> 
@@ -551,8 +551,7 @@ h2{
     transform:scale(0.9);
 }
 .bottom-box{
-    position:relative;
-    top:30%;
+      margin-top:30px;
 }
 input[type="text"]{
     padding:10px;
@@ -631,20 +630,16 @@ input::placeholder{
         font-family:'Poppins',sans-serif;
     border:1px solid white;
     position:absolute;
-    top:67%;
+    top:50%;
     left:39%;
     transform:translate(-50%,-50%);
     background:transparent;
     text-align:center;
     width: 330px;
-    height:300px;
     font-weight:bolder;
-    /* border:1px solid green; */
     margin-left:40px;
-    /* background:white;
-    background:#f3eeee; */
     overflow: hidden;
-    border-radius: 8px;
+    margin-top:135px;
     }
     input[type="text"]{
     outline:none;
@@ -678,7 +673,7 @@ input[type="password"]{
     letter-spacing:2px;
     color:black;
     position:absolute;
-    top:42%;
+    top:30%;
     left:10%;
     font-size:16px;
     /* pointer-events:none; */
@@ -688,7 +683,7 @@ input[type="password"]{
     letter-spacing:2px;
     color:black;
     position:absolute;
-    top:82%;
+    top:60%;
     left:10%;
     font-size:16px;
     /* pointer-events:none; */

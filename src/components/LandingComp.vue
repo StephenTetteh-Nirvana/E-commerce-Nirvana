@@ -20,7 +20,7 @@
                             </button>
                         </div>
 
-                        <div class="reset-box">
+                        <div class="reset-box" v-if="reset">
                             <router-link to="/reset">
                                 <button class="reset-pass">Reset Password</button>
                             </router-link>
@@ -244,6 +244,7 @@ import {db} from '@/main.js'
     const logIn = ref(false)
     const logOut = ref(false)
     const check = ref(false)
+    const reset = ref(false)
     const showSidebar = ref (false)
 
     onMounted(()=>{
@@ -255,11 +256,13 @@ import {db} from '@/main.js'
            onAuthStateChanged(auth,(user)=>{
          if(user){
             check.value =false;
-            logIn.value = true
+            logIn.value = true;
+            reset.value = true;
            
         }else{ 
             check.value =false;
-            logOut.value = true
+            logOut.value = true;
+            reset.value = false;
            
         }
             })
@@ -341,6 +344,7 @@ import {db} from '@/main.js'
         userName,
         onClick,
         close,
+        reset,
         showSidebar
      }
 
