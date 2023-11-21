@@ -6,21 +6,22 @@
 
           <div class="center-notification">
             <h1>Thank You For Your Purchase</h1>
-            <h3>Details Of Your Order Will Be Sent To Your Email</h3>
+            <p>Details Of Your Order Will Be Sent To Your Email</p>
           </div>
 
         <div class="order-box" v-for="order in orders" :key="order.name">
           <div class="first-box">
              <img :src="require('../images/' + order.image)"/>
-             <h3 class="name">{{ order.name }}</h3>
+             <div class="image-text-area">
+              <h3 class="name">{{ order.name }}</h3>
+             <h4>{{ order.quantity }} piece(s)</h4>
+             </div>
           </div>
          
             <div class="second-box">
               <div class="button-box"> 
                 <button class="status">Paid</button>
               </div>
-             
-              <h4>{{ order.quantity }} piece(s)</h4>
               <h4>${{order.price}}.00</h4>
             </div>
         </div>
@@ -148,6 +149,14 @@ console.log('Data recieved successfully');
 .first-box{
   display:flex;
 }
+.image-text-area{
+  display: flex;
+  flex-direction: column;
+}
+.image-text-area h4{
+  font-size:16px;
+  margin-left:20px;
+}
 .first-box img{
   height:100px;
   width:25%;
@@ -213,14 +222,18 @@ console.log('Data recieved successfully');
       margin-left:0px;
 }
 .center-notification h1{
-  font-size:18px;
+    font-size:20px;
+}
+.center-notification p{
+   font-size:14px;
 }
 .first-box img{
-  height:50px;
-  width:25%;
+  height:80px;
+  width:50%;
 }
-.serial{
-  font-size:15px;
+.image-text-area h4{
+  font-size:13px;
+  margin-left:0px;
 }
 .second-box{
   margin-top:10px;
@@ -229,21 +242,20 @@ console.log('Data recieved successfully');
   font-size:15px;
 }
 .name{
-  font-size:15px;
+  font-size:18px;
   font-weight:bold;
   margin-top:10px;
-  margin-left:5px;
+  margin-left:0px;
 }
 .status{
-  padding:6px;
+  padding:6px 12px;
   border:none;
   color:white;
   text-align:center;
-  height:30px;
   font-size:13px;
   letter-spacing:1px;
   font-weight:bold;
-  border-radius:8px;
+  border-radius:3px;
 }
   
 .no-order{
