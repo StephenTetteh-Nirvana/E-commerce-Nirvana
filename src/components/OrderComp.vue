@@ -225,7 +225,7 @@ console.log('Data recieved successfully');
     font-size:20px;
 }
 .center-notification p{
-   font-size:14px;
+ font-size:14px;
 }
 .first-box img{
   height:80px;
